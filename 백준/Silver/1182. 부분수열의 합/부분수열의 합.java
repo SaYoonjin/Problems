@@ -5,38 +5,35 @@ import java.util.StringTokenizer;
 
 public class Main {
 	
-	static int N, S, result = 0, sum = 0;
 	static int[] nums;
 	
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 		N = Integer.parseInt(st.nextToken());
 		S = Integer.parseInt(st.nextToken());
 		nums = new int[N];
+		
 		st = new StringTokenizer(br.readLine(), " ");
 		for (int i = 0; i < N; i++) {
 			nums[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		int idx = 0;
-		sum = 0;
-		backtracking(idx, sum);
-		if (S == 0) result --;
-		
-		System.out.println(result);
+		back(0, 0, 0);
+		System.out.println(cnt);
 	}
 	
-	public static void backtracking(int idx, int sum) {
+	static int S, cnt = 0, N;
+	
+	public static void back(int idx, int result, int choose) {
 		
 		if (idx == N) {
-			if (sum == S) result++;
-			return;
+		    if (result == S && choose != 0) cnt++;
+		    return;
 		}
-		backtracking(idx + 1, sum + nums[idx]);
-		backtracking(idx + 1, sum);
+		
+		back(idx + 1, result, choose);
+		back(idx + 1, result + nums[idx], choose + 1);
 	}
-
 }

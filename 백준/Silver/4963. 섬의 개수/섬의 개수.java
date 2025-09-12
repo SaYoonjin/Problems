@@ -6,48 +6,50 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+	
+	static int w, h;
+	static int[] dr = {-1, -1, 0, 1, 1, 1, 0, -1};
+	static int[] dc = {0, 1, 1, 1, 0, -1, -1, -1};
+	static boolean[][] visited;
+	static int[][] nums;
+	
 	public static void main(String[] args) throws IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		while (true) {
 			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-			M = Integer.parseInt(st.nextToken()); 
-			N = Integer.parseInt(st.nextToken()); 
+			w = Integer.parseInt(st.nextToken());
+			h = Integer.parseInt(st.nextToken());
 			
-			if (N == 0 && M == 0) break;
+			if (w == 0 && h == 0) break;
 			
-			visited = new boolean[N][M];
-			nums = new int[N][M];
+			nums = new int[h][w];
+			visited = new boolean[h][w];
 			
-			for (int i = 0; i < N; i++) {
+			for (int i = 0; i < h; i++) {
 				st = new StringTokenizer(br.readLine(), " ");
-				for (int j = 0; j < M; j++) {
+				for (int j = 0; j < w; j++) {
 					nums[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
 			
 			int cnt = 0;
 			
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < M; j++) {
-					
-					if (nums[i][j] == 1 && !visited[i][j]) {
+			for (int i = 0; i < h; i++) {
+				for (int j = 0; j < w; j++) {
+					if (!visited[i][j] && nums[i][j] == 1) {
 						bfs(i, j);
 						cnt++;
 					}
-					
 				}
 			}
+			
 			System.out.println(cnt);
+			
 		}
+		
 	}
-
-	static int N, M;
-	static boolean[][] visited;
-	static int[][] nums;
-	static int[] dr = {-1, -1, 0, 1, 1, 1, 0, -1};
-	static int[] dc = {0, 1, 1, 1, 0, -1, -1, -1};
 	
 	public static void bfs(int a, int b) {
 		Queue<int[]> q = new ArrayDeque<>();
@@ -58,10 +60,10 @@ public class Main {
 			int[] now = q.poll();
 			
 			for (int i = 0; i < 8; i++) {
-				int x = now[0] + dr[i];
-				int y = now[1] + dc[i];
+				int x = dr[i] + now[0];
+				int y = dc[i] + now[1];
 				
-				if (x < 0 || x >= N || y < 0 || y >= M) continue;
+				if (x < 0 || x >= h || y < 0 || y >= w) continue;
 				
 				if (!visited[x][y] && nums[x][y] == 1) {
 					visited[x][y] = true;

@@ -4,21 +4,24 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int N = Integer.parseInt(br.readLine());
-		
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		
-		int max = Integer.parseInt(st.nextToken()), min = max;
-		for (int i = 1; i < N; i++) {
-			int ta = Integer.parseInt(st.nextToken());
-			if (ta > max) max = ta;
-			if (ta < min) min = ta;
-		}
-		
-		System.out.println(min + " " + max);
-	}
 
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        int min = 1000000, max = -1000000;
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            int t = Integer.parseInt(st.nextToken());
+
+            if (t > max) max = t;
+            if (t < min) min = t;
+        }
+
+        System.out.println(min + " " + max);
+
+    }
 }

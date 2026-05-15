@@ -2,37 +2,34 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        int answer = 0;
-
-        Queue<int[]> q = new LinkedList<>();
-
+        
+        Queue<int[]> q = new ArrayDeque<>();
+        
         for (int i = 0; i < priorities.length; i++) {
-            q.offer(new int[]{priorities[i], i});
+            
+            q.offer(new int[] {priorities[i], i});
+            
         }
-
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-
-            boolean hasHigher = false;
-
+        
+        int answer = 0;
+        
+        while (true) {
+            
+            boolean flag = false;
+            int[] now = q.poll();
+            
             for (int[] item : q) {
-                if (item[0] > cur[0]) {
-                    hasHigher = true;
+                if (item[0] > now[0]) {
+                    q.offer(now);
+                    flag = true;
                     break;
                 }
             }
-
-            if (hasHigher) {
-                q.offer(cur); 
-            } else {
-                answer++;
-
-                if (cur[1] == location) {
-                    return answer;
-                }
-            }
+            
+            if(!flag && now[1] == location) return answer + 1;
+            else if (!flag) answer++;
+            
         }
-
-        return answer;
+                
     }
 }

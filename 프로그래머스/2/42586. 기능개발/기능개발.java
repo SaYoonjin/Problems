@@ -3,50 +3,45 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         
-        int[] nums = new int[progresses.length];
-        for (int i = 0; i < progresses.length; i++) {
+        // 남은 작업량 구하기 [7, 70, 45]
+        // 필요한 날짜 구하기 [3, 3, 9]
+        
+        int N = progresses.length;
+        int[] left = new int[N];
+        
+        for (int i = 0; i < N; i++) {
             
-            int p = progresses[i];
-            int s = speeds[i];
-            
-            int r = 0;
-            if ((100 - p) % s == 0) r = (100 - p) / s;
-            else r = (100 - p) / s + 1;
-            
-            nums[i] = r;
+            int nn = 100 - progresses[i];
+            if (nn % speeds[i] == 0) left[i] = nn / speeds[i];
+            else left[i] = nn / speeds[i] + 1;
             
         }
         
-        List<Integer> list = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
+        int idx = 0;
         
-        int idx = 0, cnt = 0, now = 0;;
-        
-        while (idx < progresses.length) {
+        // [3, 3, 9]
+        while (idx < N) {
             
-            if (cnt == 0) {
-                now = nums[idx++];
-                cnt++;
+            int cnt = 1;
+            int now = left[idx++];  // 3
+            
+            while (idx < N && now >= left[idx]) {
+                
+                cnt++;  // 2
+                idx++;  // 2
+                
             }
             
-            else if (now >= nums[idx]) {
-                cnt++;
-                idx++;
-            }
+            result.add(cnt);
             
-            else if (now < nums[idx]) {
-                list.add(cnt);
-                cnt = 0;
-            }
-             
         }
-        
-        // 마지막 거 추가해야 함
-        if (cnt > 0) list.add(cnt);
         
         idx = 0;
-        int[] answer = new int[list.size()];
-        for (int l : list) {
-            answer[idx++] = l;
+        
+        int[] answer = new int[result.size()];
+        for (int a : result) {
+            answer[idx++] = a;
         }
         
         return answer;

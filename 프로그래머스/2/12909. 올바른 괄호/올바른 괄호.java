@@ -1,37 +1,30 @@
 import java.util.*;
 
 class Solution {
-    
     boolean solution(String s) {
-        boolean answer = true;
-
-        Stack<Character> st = new Stack<>();
         
-        int idx = 0;
+        char[] c = new char[s.length()];
         
-        while (idx < s.length()) {
+        for(int i = 0; i < s.length(); i++) {
             
-            Character c = s.charAt(idx);
+            c[i] = s.charAt(i);
             
-            if (c == '(') {
-                st.push(c);
-                idx++;
-            }
-            else {
-                if (!st.isEmpty()) {
-                    st.pop();
-                    idx++;
-                }
-                else {
-                    answer = false;
-                    return answer;
-                }
+        }
+        
+        Queue<Character> q = new ArrayDeque<>();
+        
+        for (char a : c) {
+            
+            if (q.isEmpty() || a == '(') q.offer(a);
+            else if (a == ')') {
+                if (!q.isEmpty()) q.poll();
+                else return false;
             }
             
         }
         
-        if (!st.isEmpty()) answer = false;
-
-        return answer;
+        if (!q.isEmpty()) return false;
+        else return true;
+        
     }
 }

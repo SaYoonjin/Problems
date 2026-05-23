@@ -3,45 +3,39 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         
-        // 남은 작업량 구하기 [7, 70, 45]
-        // 필요한 날짜 구하기 [3, 3, 9]
+        int[] left = new int[progresses.length];
         
-        int N = progresses.length;
-        int[] left = new int[N];
-        
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < progresses.length; i++) {
             
-            int nn = 100 - progresses[i];
-            if (nn % speeds[i] == 0) left[i] = nn / speeds[i];
-            else left[i] = nn / speeds[i] + 1;
+            int now = 100 - progresses[i];
+            
+            if (now % speeds[i] == 0) left[i] = now / speeds[i];
+            else left[i] = now / speeds[i] + 1;
             
         }
         
-        List<Integer> result = new ArrayList<>();
+        List<Integer> days = new ArrayList<>();
+        
         int idx = 0;
         
-        // [3, 3, 9]
-        while (idx < N) {
+        while (idx < left.length) {
             
+            int n = left[idx++];
             int cnt = 1;
-            int now = left[idx++];  // 3
             
-            while (idx < N && now >= left[idx]) {
-                
-                cnt++;  // 2
-                idx++;  // 2
-                
+            while (idx < left.length && left[idx] <= n) {
+                cnt++;
+                idx++;
             }
-            
-            result.add(cnt);
+
+            days.add(cnt);          
             
         }
         
-        idx = 0;
+        int[] answer = new int[days.size()];
         
-        int[] answer = new int[result.size()];
-        for (int a : result) {
-            answer[idx++] = a;
+        for (int i = 0; i < days.size(); i++) {
+            answer[i] = days.get(i);
         }
         
         return answer;

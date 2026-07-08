@@ -3,28 +3,24 @@ import java.util.*;
 class Solution {
     boolean solution(String s) {
         
-        char[] c = new char[s.length()];
+        Stack<Character> st = new Stack<>();
         
-        for(int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             
-            c[i] = s.charAt(i);
+            char c = s.charAt(i);
             
-        }
-        
-        Queue<Character> q = new ArrayDeque<>();
-        
-        for (char a : c) {
-            
-            if (q.isEmpty() || a == '(') q.offer(a);
-            else if (a == ')') {
-                if (!q.isEmpty()) q.poll();
+            if (c == '(') st.add(c);
+            else {
+                
+                if (!st.isEmpty()) st.pop();
                 else return false;
+                
             }
             
         }
         
-        if (!q.isEmpty()) return false;
-        else return true;
+        if (!st.isEmpty()) return false;
+        return true;
         
     }
 }

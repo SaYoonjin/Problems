@@ -3,25 +3,23 @@ import java.util.*;
 class Solution {
     public int[] solution(int brown, int yellow) {
         
-        int total = brown + yellow;
+        int[] answer = new int[2];
         
-        for (int i = 1; i <= yellow; i++) {
-            
-            if (yellow % i != 0) continue;
+        int sum = (brown + 4) / 2;
+        
+        for (int i = 3; i <= sum / 2; i++) {
             
             int row = i;
-            int col = yellow / i;
+            int col = sum - row;
             
-            int crow = row + 2;
-            int ccol = col + 2;
-            
-            if (crow >= ccol && crow * ccol == total) {
-                return new int[] {crow, ccol};
+            if ((row - 2) * (col - 2) == yellow) {
+                answer[0] = col;
+                answer[1] = row;
+                break;
             }
             
         }
         
-        return new int[] {};
-        
+        return answer;
     }
 }

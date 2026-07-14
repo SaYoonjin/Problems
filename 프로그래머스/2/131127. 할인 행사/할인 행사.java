@@ -2,35 +2,49 @@ import java.util.*;
 
 class Solution {
     public int solution(String[] want, int[] number, String[] discount) {
+        
         int answer = 0;
-
-        Map<String, Integer> wantMap = new HashMap<>();
-
+        
+        Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < want.length; i++) {
-            wantMap.put(want[i], number[i]);
+            map.put(want[i], number[i]);
         }
-
-        for (int i = 0; i <= discount.length - 10; i++) {
-            Map<String, Integer> discountMap = new HashMap<>();
-
-            for (int j = i; j < i + 10; j++) {
-                discountMap.put(discount[j], discountMap.getOrDefault(discount[j], 0) + 1);
+        
+        for (int i = 0; i < discount.length - 9; i++) {
+            
+            if (map.getOrDefault(discount[i], 0) == 0) continue;
+            else { 
+                
+                boolean flag = false;
+                
+                flag = isPoss(discount, map, i);
+                
+                if (flag) answer++;
+                
             }
-
-            boolean isPossible = true;
-
-            for (String item : wantMap.keySet()) {
-                if (!discountMap.getOrDefault(item, 0).equals(wantMap.get(item))) {
-                    isPossible = false;
-                    break;
-                }
-            }
-
-            if (isPossible) {
-                answer++;
-            }
+            
         }
-
+        
         return answer;
+        
+    }
+    
+    public boolean isPoss(String[] discount, Map<String, Integer> map, int k) {
+        
+        Map<String, Integer> copyMap = new HashMap<>(map);
+        
+        for (int i = 0; i < 10; i++) {
+            
+            String s = discount[k + i];
+            
+            if (copyMap.getOrDefault(s, 0) == 0) return false;
+            
+            copyMap.put(s, copyMap.get(s) - 1);
+            if (copyMap.get(s) == 0) copyMap.remove(s);
+            
+        }
+        
+        return copyMap.isEmpty();
+        
     }
 }

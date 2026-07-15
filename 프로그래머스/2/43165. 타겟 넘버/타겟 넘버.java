@@ -2,31 +2,28 @@ import java.util.*;
 
 class Solution {
     
-    static int answer;
+    static int t, answer = 0;
     
     public int solution(int[] numbers, int target) {
         
         answer = 0;
+        t = target;
         
-        dfs(0, 0, target, numbers);
+        back(numbers, 0, 0);
         
         return answer;
-        
     }
     
-    public static void dfs(int score, int cnt, int target, int[] numbers) {
+    public static void back(int[] numbers, int cnt, int now) {
         
-        if (cnt == numbers.length && score == target) {
-            answer++;
+        if (cnt == numbers.length) {
+            if (now == t) answer++;
             return;
         }
         
-        else if (cnt == numbers.length) return;
-        
-        else {
-            dfs(score + numbers[cnt], cnt + 1, target, numbers);
-            dfs(score - numbers[cnt], cnt + 1, target, numbers);
-        }
+        back(numbers, cnt + 1, now + numbers[cnt]);
+        back(numbers, cnt + 1, now - numbers[cnt]);
         
     }
+    
 }

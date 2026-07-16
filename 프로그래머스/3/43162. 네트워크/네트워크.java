@@ -3,7 +3,6 @@ import java.util.*;
 class Solution {
     
     static boolean[] visited;
-    static List<Integer>[] networks;
     
     public int solution(int n, int[][] computers) {
         
@@ -11,58 +10,52 @@ class Solution {
         // 1 1 0
         // 0 0 1
         
-        visited = new boolean[n + 1];
-        
-        networks = new ArrayList[n + 1];
-        for (int i = 0; i < networks.length; i++) networks[i] = new ArrayList<>();
+        List<Integer>[] arr = new ArrayList[n];
+        for (int i = 0; i < arr.length; i++) arr[i] = new ArrayList<>();
         
         for (int i = 0; i < computers.length; i++) {
-            for (int j = 0; j < computers[0].length; j++) {
+            for (int j = 0; j < computers.length; j++) {
                 
                 if (i == j) continue;
                 
-                else if (computers[i][j] == 1) {
+                if (computers[i][j] == 1) {
                     
-                    networks[i].add(j);
-                    networks[j].add(i);
+                    arr[i].add(j);
+                    arr[j].add(i);
                     
                 }
                 
             }
         }
         
+        visited = new boolean[n];
         int answer = 0;
         
-        for (int i = 0; i <= n; i++) {
+        for (int i = 0; i < visited.length; i++) {
             
             if (!visited[i]) {
-                bfs(i);
+                
+                visited[i] = true;
                 answer++;
+                dfs(i, arr);
+                
             }
             
         }
         
-        return answer - 1;
+        return answer;
         
     }
     
-    public static void bfs(int num) {
+    public void dfs(int i, List<Integer>[] arr) {
         
-        Queue<Integer> q = new ArrayDeque<>();
-        visited[num] = true;
-        q.offer(num);
-        
-        while (!q.isEmpty()) {
-            
-            int now = q.poll();
-            
-            for (int nn : networks[now]) {
-                if (!visited[nn]) {
-                    q.offer(nn);
-                    visited[nn] = true;
-                }
+        for (int n : arr[i]) {
+            if (!visited[n]) {
+                
+                visited[n] = true;
+                
+                dfs(n, arr);
             }
-            
         }
         
     }
